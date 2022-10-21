@@ -39,17 +39,12 @@ public class MainManager : MonoBehaviour
         DontDestroyOnLoad(gameObject);
         LoadSave();
     }
-    // Start is called before the first frame update
-    void Start()
-    {
-        //ionno
-    }
 
     private void Update()
     {
         if (!m_Started)
         {
-            if (Input.GetKeyDown(KeyCode.Space))
+            if (Input.GetKeyDown(KeyCode.Space) && GameObject.Find("Name Input") == null)
             {
                 m_Started = true;
                 float randomDirection = UnityEngine.Random.Range(-1.0f, 1.0f);
@@ -72,12 +67,12 @@ public class MainManager : MonoBehaviour
             }
         }
 
-        if (GameObject.Find("Name Input") != null)
+        if (GameObject.Find("Name Input") != null && playerName == "")
         {
-            playerName = GameObject.Find("Name Input")
-                .transform.Find("Text Area")
-                .transform.Find("Text")
-                .GetComponent<TextMeshProUGUI>().text;
+            //playerName = GameObject.Find("Name Input")
+               // .transform.Find("Text Area")
+                //.transform.Find("Text")
+                //.GetComponent<TextMeshProUGUI>().text;
         }
     }
 
@@ -146,8 +141,6 @@ public class MainManager : MonoBehaviour
     {
         public string TopPlayer;
         public int HighScore;
-
-        public string LastPlayer;
     }
 
     public void LoadSave()
@@ -160,10 +153,6 @@ public class MainManager : MonoBehaviour
 
             highScore = data.HighScore;
             TopPlayer = data.TopPlayer;
-            GameObject.Find("Name Input")
-                .transform.Find("Text Area")
-                .transform.Find("Text")
-                .GetComponent<TextMeshProUGUI>().text = data.LastPlayer;
         }
     }
 
@@ -172,7 +161,6 @@ public class MainManager : MonoBehaviour
         SaveData data = new SaveData();
         data.TopPlayer = TopPlayer;
         data.HighScore = highScore;
-        data.LastPlayer = playerName;
         
         string json = JsonUtility.ToJson(data);
         File.WriteAllText(Application.persistentDataPath + "/savefile.json", json);
