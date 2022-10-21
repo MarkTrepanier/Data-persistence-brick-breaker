@@ -5,6 +5,7 @@ using System.IO;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
+using TMPro;
 
 public class MainManager : MonoBehaviour
 {
@@ -20,6 +21,8 @@ public class MainManager : MonoBehaviour
 
     private bool gameIsActive = false;
     private bool m_GameOver = false;
+
+    public string playerName;
 
     public static MainManager Instance;
 
@@ -92,6 +95,9 @@ public class MainManager : MonoBehaviour
 
     public void StartGame()
     {
+        playerName = GameObject.Find("Name Input")
+            .transform.Find("Text Area")
+            .transform.Find("Text").GetComponent<TextMeshProUGUI>().text;
         SceneManager.LoadScene(1);
         SceneManager.sceneLoaded += OnSceneLoaded;
         
