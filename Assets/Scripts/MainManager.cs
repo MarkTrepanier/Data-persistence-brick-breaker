@@ -114,8 +114,8 @@ public class MainManager : MonoBehaviour
         //scoreText text
         ScoreText = GameObject.Find("ScoreText").GetComponent<Text>();
         HighScoreText = GameObject.Find("High Score Text").GetComponent<Text>();
-
-        HighScoreText.text = $"Best Score: {TopPlayer = "Tom"}: {highScore}";
+        string topPlayer = TopPlayer != "" ? TopPlayer : "Tom";
+        HighScoreText.text = $"Best Score: {topPlayer}: {highScore}";
         //gameOverText gameobject
         GameOverText = GameObject.Find("Canvas").transform.Find("GameoverText").gameObject;
     }
@@ -127,14 +127,17 @@ public class MainManager : MonoBehaviour
         if(m_Points > highScore)
         {
             highScore = m_Points;
+            TopPlayer = playerName;
         }
     }
 
     [System.Serializable]
     public class SaveData
     {
-        public string Name;
+        public string TopPlayer;
         public int HighScore;
+
+        public string LastPlayer;
     }
 
 
