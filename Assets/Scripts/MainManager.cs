@@ -14,15 +14,18 @@ public class MainManager : MonoBehaviour
     public Rigidbody Ball;
 
     public Text ScoreText;
+    public Text HighScoreText;
     public GameObject GameOverText;
     
     private bool m_Started = false;
     private int m_Points;
 
-    private bool gameIsActive = false;
     private bool m_GameOver = false;
 
     public string playerName;
+
+    public string TopPlayer;
+    public int highScore;
 
     public static MainManager Instance;
 
@@ -106,11 +109,13 @@ public class MainManager : MonoBehaviour
     void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
         InitializeBricks();
-        gameIsActive = true;
         //Ball
         Ball = GameObject.Find("Ball").GetComponent<Rigidbody>();
         //scoreText text
         ScoreText = GameObject.Find("ScoreText").GetComponent<Text>();
+        HighScoreText = GameObject.Find("High Score Text").GetComponent<Text>();
+
+        HighScoreText.text = $"Best Score: {TopPlayer = "Tom"}: {highScore}";
         //gameOverText gameobject
         GameOverText = GameObject.Find("Canvas").transform.Find("GameoverText").gameObject;
     }
@@ -119,6 +124,10 @@ public class MainManager : MonoBehaviour
     {
         m_GameOver = true;
         GameOverText.SetActive(true);
+        if(m_Points > highScore)
+        {
+            highScore = m_Points;
+        }
     }
 
     [System.Serializable]
