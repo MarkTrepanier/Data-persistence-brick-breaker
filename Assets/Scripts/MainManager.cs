@@ -37,6 +37,7 @@ public class MainManager : MonoBehaviour
         }
         Instance = this;
         DontDestroyOnLoad(gameObject);
+        LoadSave();
     }
     // Start is called before the first frame update
     void Start()
@@ -69,6 +70,14 @@ public class MainManager : MonoBehaviour
                 m_GameOver = false;
                 m_Points = 0;
             }
+        }
+
+        if (GameObject.Find("Name Input") != null)
+        {
+            playerName = GameObject.Find("Name Input")
+                .transform.Find("Text Area")
+                .transform.Find("Text")
+                .GetComponent<TextMeshProUGUI>().text;
         }
     }
 
@@ -129,6 +138,7 @@ public class MainManager : MonoBehaviour
             highScore = m_Points;
             TopPlayer = playerName;
         }
+        DataSave();
     }
 
     [System.Serializable]
@@ -140,5 +150,32 @@ public class MainManager : MonoBehaviour
         public string LastPlayer;
     }
 
+    public void LoadSave()
+    {
+        string path = Application.persistentDataPath + "/savefile.json";
+        if (File.Exists(path))
+        {
+            string json = File.ReadAllText(path);
+            SaveData data = JsonUtility.FromJson<SaveData>(json);
+
+            highScore = data.HighScore;
+            TopPlayer = data.TopPlayer;
+            GameObject.Find("Name Input")
+                .transform.Find("Text Area")
+                .transform.Find("Text")
+                .GetComponent<TextMeshProUGUI>().text = data.LastPlayer;
+        }
+    }
+
+    public void DataSave()
+    {
+        SaveData data = new SaveData();
+        data.TopPlayer = TopPlayer;
+        data.HighScore = highScore;
+        data.LastPlayer = playerName;
+        
+        string json = JsonUtility.ToJson(data);
+        File.WriteAllText(Application.persistentDataPath + "/savefile.json", json);
+    }
 
 }
