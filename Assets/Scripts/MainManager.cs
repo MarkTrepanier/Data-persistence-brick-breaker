@@ -58,6 +58,10 @@ public class MainManager : MonoBehaviour
             if (Input.GetKeyDown(KeyCode.Space))
             {
                 SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+
+                m_Started = false;
+                m_GameOver = false;
+                m_Points = 0;
             }
         }
     }
@@ -90,13 +94,11 @@ public class MainManager : MonoBehaviour
     {
         SceneManager.LoadScene(1);
         SceneManager.sceneLoaded += OnSceneLoaded;
+        
     }
 
     void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
-
-        Debug.Log("OnSceneLoaded: " + scene.name);
-        Debug.Log(mode);
         InitializeBricks();
         gameIsActive = true;
         //Ball
